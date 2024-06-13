@@ -1,5 +1,23 @@
 <?php
 include '../conn.php';
+
+// Handle deletion
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $query = "DELETE FROM course WHERE idCourse='$id'";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>
+                alert('Data Kursus Berhasil Dihapus');
+                document.location.href = 'admin-daftar-kursus.php'; 
+              </script>";
+    } else {
+        echo "<script>
+                alert('Data Kursus Gagal Dihapus');
+              </script>";
+    }
+}
+
+// Fetch all courses
 $result = mysqli_query($conn, "SELECT * FROM course");
 ?>
 <!DOCTYPE html>
@@ -101,8 +119,8 @@ $result = mysqli_query($conn, "SELECT * FROM course");
             color: black;
         }
         .table--container {
-            background: #2f73b8;
             border-radius: 10px;
+            background: #2f73b8;
             padding: 2rem;
         }
     </style>
@@ -125,7 +143,7 @@ $result = mysqli_query($conn, "SELECT * FROM course");
                 </a>
             </li>
             <li class="active">
-                <a href="admin-tambah-kursus.php">
+                <a href="admin-daftar-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
@@ -148,33 +166,37 @@ $result = mysqli_query($conn, "SELECT * FROM course");
         <div class="header--wrapper">
             <div class="header--title">
                 <h2>Daftar Kursus</h2>
+                <a href="admin-tambah-kursus.php" class="btn btn-primary">Tambah Kursus</a>
             </div>
         </div>
         <div class="table--container">
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nama Kursus</th>
-                        <th scope="col">Deskripsi Singkat</th>
-                        <th scope="col">Email Mentor</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                    <tr>
-                        <th scope="row"><?= $row['idCourse'] ?></th>
-                        <td><?= $row['namaCourse'] ?></td>
-                        <td><?= $row['deskSingkat'] ?></td>
-                        <td><?= $row['emailMentor'] ?></td>
-                        <td>
-                            <a href="admin-edit-kursus.php?id=<?= $row['idCourse'] ?>" class="btn btn-warning">Edit</a>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table id="example" class="table table-light table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">ID Kursus</th>
+                            <th scope="col">Nama Kursus</th>
+                            <th scope="col">Deskripsi Singkat</th>
+                            <th scope="col">Email Mentor</th>
+                            <th scope="col">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while($row = mysqli_fetch_assoc($result)): ?>
+                        <tr>
+                            <td><?= $row["idCourse"]; ?></td>
+                            <td><?= $row["namaCourse"]; ?></td>
+                            <td><?= $row["deskSingkat"]; ?></td>
+                            <td><?= $row["emailMentor"]; ?></td>
+                            <td>
+                                <a href="admin-edit-kursus.php?id=<?= $row['idCourse'] ?>" class="btn btn-warning">Edit</a>
+                                <a href="admin-daftar-kursus.php?delete=<?= $row['idCourse'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kursus ini?')">Hapus</a>
+                            </td>
+                        </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
