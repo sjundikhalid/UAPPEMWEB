@@ -131,13 +131,13 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'pelajar'");
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-materi.php">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
                 </a>
@@ -190,15 +190,5 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'pelajar'");
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        // Add event listener to sidebar links
-        document.querySelectorAll('.menu li a').forEach(link => {
-            link.addEventListener('click', event => {
-                event.preventDefault();
-                const href = link.getAttribute('href');
-                window.location.href = href;
-            });
-        });
-    </script>
 </body>
 </html>
