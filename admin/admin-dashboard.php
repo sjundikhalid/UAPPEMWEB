@@ -203,21 +203,27 @@ if (mysqli_num_rows($result_pelajar) > 0) {
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-pelajar.php">
                     <i class="far fa-user"></i>
-                    <span>Peserta</span>
+                    <span>Pelajar</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-materi.php">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
+                </a>
+            </li>
+            <li>
+                <a href="admin-kelola-testimoni.php">
+                    <i class="far fa-star"></i>
+                    <span>Testimoni</span>
                 </a>
             </li>
             <li class="logout">
