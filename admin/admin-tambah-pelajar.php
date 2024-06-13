@@ -24,7 +24,7 @@ if (isset($_POST['tambah'])) {
         }
         else{
             $hashed_password = password_hash($passwords, PASSWORD_DEFAULT); 
-            $query = "INSERT INTO users (email, nama, nomorHP, roles, passwords) VALUES ('$email', '$nama', '$nomorHP', 'mentor', '$hashed_passwords')";
+            $query = "INSERT INTO users (email, nama, nomorHP, roles, passwords) VALUES ('$email', '$nama', '$nomorHP', 'pelajar', '$hashed_passwords')";
             if (mysqli_query($conn, $query)) {
                 echo "<script>
                             alert('Data Pelajar Berhasil Ditambahkan');
@@ -157,19 +157,19 @@ if (isset($_POST['tambah'])) {
                 </a>
             </li>
             <li class="active">
-                <a href="admin-kelola-pelajar.php">
+                <a href="admin-kelola-mentor.php">
                     <i class="fas fa-user"></i>
                     <span>Mentor</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-pelajar.php">
                     <i class="far fa-user"></i>
-                    <span>Pelajat</span>
+                    <span>Pelajar</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
