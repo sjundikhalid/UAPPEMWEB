@@ -8,7 +8,7 @@ if (isset($_GET['delete'])) {
     if (mysqli_query($conn, $query)) {
         echo "<script>
                 alert('Data Kursus Berhasil Dihapus');
-                document.location.href = 'admin-daftar-kursus.php'; 
+                document.location.href = 'admin-kelola-kursus.php'; 
               </script>";
     } else {
         echo "<script>
@@ -165,7 +165,7 @@ $result = mysqli_query($conn, "SELECT * FROM course");
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
-                <h2>Daftar Kursus</h2>
+                <h2>Kelola Kursus</h2>
                 <a href="admin-tambah-kursus.php" class="btn btn-primary">Tambah Kursus</a>
             </div>
         </div>
@@ -190,7 +190,7 @@ $result = mysqli_query($conn, "SELECT * FROM course");
                             <td><?= $row["emailMentor"]; ?></td>
                             <td>
                                 <a href="admin-edit-kursus.php?id=<?= $row['idCourse'] ?>" class="btn btn-warning">Edit</a>
-                                <a href="admin-daftar-kursus.php?delete=<?= $row['idCourse'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kursus ini?')">Hapus</a>
+                                <a href="admin-kelola-kursus.php?delete=<?= $row['idCourse'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus kursus ini?')">Hapus</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
