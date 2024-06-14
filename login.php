@@ -2,6 +2,17 @@
 session_start();
 include 'conn.php';
 
+if (isset($_SESSION['email'])) {
+    if ($_SESSION['roles'] == 'admin') {
+        header('Location: admin/admin-dashboard.php');
+    } else if ($_SESSION['roles'] == 'mentor') {
+        header('Location: mentor/mentor-home.php');
+    } else if ($_SESSION['roles'] == 'pelajar') {
+        header('Location: pelajar-home.php');
+    }
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["login"])) {
     $email = htmlspecialchars($_POST['email']);
     $passwords = htmlspecialchars($_POST['passwords']);
@@ -17,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST["login"])) {
         $_SESSION['roles'] = $user['roles'];
 
         if ($user['roles'] == 'admin') {
-            header('Location: admin/admin-dashboard.php');
+            header('Location: admin/admin-home.php');
         } else if ($user['roles'] == 'mentor') {
             header('Location: mentor/mentor-home.php');
         } else if ($user['roles'] == 'pelajar'){
