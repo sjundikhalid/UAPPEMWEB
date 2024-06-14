@@ -1,5 +1,10 @@
 <?php
+session_start();
 include '../conn.php';
+if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
+    header('Location: ../login.php');
+    exit();
+}
 $sql_mentor = "SELECT COUNT(*) as total_mentor FROM users WHERE roles = 'mentor'";
 $result_mentor = mysqli_query($conn, $sql_mentor);
 
@@ -226,10 +231,10 @@ if (mysqli_num_rows($result_pelajar) > 0) {
                     <span>Testimoni</span>
                 </a>
             </li>
-            <li class="logout">
-                <a href="">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Log Out</span>
+            <li>
+                <a href="admin-home.php">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
                 </a>
             </li>
         </ul>
