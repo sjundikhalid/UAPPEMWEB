@@ -7,25 +7,25 @@ if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
 }
 
 $id = $_GET['id'];
-$query = "SELECT * FROM course WHERE idCourse='$id'";
+$query = "SELECT * FROM material WHERE idMaterial='$id'";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
 if (isset($_POST['update'])) {
-    $namaCourse = htmlspecialchars($_POST['namaCourse']);
-    $deskSingkat = htmlspecialchars($_POST['deskSingkat']);
-    $emailMentor = htmlspecialchars($_POST['emailMentor']);
+    $namaMaterial = htmlspecialchars($_POST['namaMaterial']);
+    $linkVideo = htmlspecialchars($_POST['linkVideo']);
+    $idCourse = htmlspecialchars($_POST['idCourse']);
 
-    $query = "UPDATE course SET namaCourse='$namaCourse', deskSingkat='$deskSingkat', emailMentor='$emailMentor' WHERE idCourse='$id'";
+    $query = "UPDATE material SET namaMaterial='$namaMaterial', linkVideo='$linkVideo', idCourse='$idCourse' WHERE idMaterial='$id'";
     if (mysqli_query($conn, $query)) {
         echo "<script>
-                    alert('Data Kursus Berhasil Diperbarui');
-                    document.location.href = 'admin-daftar-kursus.php'; 
+                    alert('Data Materi Berhasil Diperbarui');
+                    document.location.href = 'admin-daftar-materi.php'; 
                     </script>";
     } else {
         echo "<script>
-                    alert('Data Kursus Gagal Diperbarui');
-                    document.location.href = 'admin-edit-kursus.php?id=$id'; 
+                    alert('Data Materi Gagal Diperbarui');
+                    document.location.href = 'admin-edit-materi.php?id=$id'; 
                     </script>";
     }
 }
@@ -128,7 +128,7 @@ if (isset($_POST['update'])) {
         .header--title {
             color: black;
         }
-        .table--container {
+        .tambah--container {
             background: #2f73b8;
             border-radius: 10px;
             padding: 2rem;
@@ -152,22 +152,22 @@ if (isset($_POST['update'])) {
                     <span>Mentor</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="admin-daftar-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
             </li>
-            <li>
-                <a href="">
+            <li class="active">
+                <a href="admin-daftar-materi.php">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
                 </a>
             </li>
-            <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
@@ -175,26 +175,26 @@ if (isset($_POST['update'])) {
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
-                <h2>Edit Kursus</h2>
+                <h2>Edit Materi</h2>
             </div>
         </div>
         <div class="tambah--container">
-            <h1 class="text-center pb-3">Edit Kursus</h1>
+            <h1 class="text-center pb-3">Edit Materi</h1>
             <form action="" method="POST">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" name="namaCourse" value="<?= $row['namaCourse'] ?>" placeholder="Nama Kursus" required>
-                    <label for="floatingInput">Nama Kursus</label>
+                    <input type="text" class="form-control" id="floatingInput" name="namaMaterial" value="<?= $row['namaMaterial'] ?>" placeholder="Nama Materi" required>
+                    <label for="floatingInput">Nama Materi</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" name="deskSingkat" value="<?= $row['deskSingkat'] ?>" placeholder="Deskripsi Singkat" required>
-                    <label for="floatingInput">Deskripsi Singkat</label>
+                    <input type="text" class="form-control" id="floatingInput" name="linkVideo" value="<?= $row['linkVideo'] ?>" placeholder="Link Video" required>
+                    <label for="floatingInput">Link Video</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" name="emailMentor" value="<?= $row['emailMentor'] ?>" placeholder="Email Mentor" required>
-                    <label for="floatingInput">Email Mentor</label>
+                    <input type="text" class="form-control" id="floatingInput" name="idCourse" value="<?= $row['idCourse'] ?>" placeholder="ID Kursus" required>
+                    <label for="floatingInput">ID Kursus</label>
                 </div>
                 <button type="submit" name="update" class="btn btn-success" style="float: right;">Update</button>
-                <a href="admin-daftar-kursus.php" class="btn btn-success" style="float: left;">Kembali</a>
+                <a href="admin-daftar-materi.php" class="btn btn-success" style="float: left;">Kembali</a>
             </form>
         </div>
     </div>
