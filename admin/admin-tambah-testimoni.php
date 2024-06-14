@@ -1,12 +1,21 @@
 <?php
-session_start();
 include '../conn.php';
-if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
-    header('Location: ../login.php');
-    exit();
+if (isset($_POST['tambah'])) { 
+    $pesan = htmlspecialchars($_POST['pesan']);
+    $email = htmlspecialchars($_POST['email']);
+    $query = "INSERT INTO testimoni (pesan, email) VALUES ('$pesan', '$email')";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>
+                    alert('Testimoni berhasil ditambahkan');
+                    document.location.href = 'admin-kelola-testimoni.php'; 
+                    </script>";
+    } else {
+        echo "<script>
+                alert('Testimoni gagal ditambahkan');
+                document.location.href = 'admin-tambah-testimoni.php'; 
+                </script>";
+    }
 }
-
-$result = mysqli_query($conn, "SELECT * FROM testimoni");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,12 +25,12 @@ $result = mysqli_query($conn, "SELECT * FROM testimoni");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            border: none;
-            outline: none;
-            box-sizing: border-box;
+       *{
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
         }
         body{
             display: flex;
@@ -107,8 +116,8 @@ $result = mysqli_query($conn, "SELECT * FROM testimoni");
             color: black;
         }
         .table--container{
-            border-radius: 10px;
             background: #2f73b8;
+            border-radius: 10px;
             padding: 2rem;
         }
     </style>
@@ -143,7 +152,7 @@ $result = mysqli_query($conn, "SELECT * FROM testimoni");
                 </a>
             </li>
             <li>
-                <a href="admin-kelola-materi.php">
+                <a href="">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
                 </a>
@@ -154,10 +163,10 @@ $result = mysqli_query($conn, "SELECT * FROM testimoni");
                     <span>Testimoni</span>
                 </a>
             </li>
-            <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
@@ -168,37 +177,20 @@ $result = mysqli_query($conn, "SELECT * FROM testimoni");
                 <h2>Kelola Testimoni</h2>
             </div>
         </div>
-        <div class="table--container">
-            <a href="admin-tambah-testimoni.php" class="btn btn-warning mb-2">Tambah Testimoni</a>
-            <div class="table-responsive">
-                <table id="example" class="table table-light table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">idTestimoni</th>
-                            <th scope="col">Pesan</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        <?php while($row = mysqli_fetch_assoc($result)): ?>
-                        <tr>
-                            <td scope="row"><?= $i; ?></td>
-                            <td><?= $row["idTestimoni"]; ?></td>
-                            <td><?= $row["pesan"]; ?></td>
-                            <td><?= $row["email"]; ?></td>
-                            <td>
-                                <a href="admin-edit-testimoni.php?id=<?= $row["idTestimoni"]; ?>" class="btn btn-success">Edit</a>
-                                <a href="admin-hapus-testimoni.php?id=<?= $row["idTestimoni"]; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');" class="btn btn-danger">Delete</a>    
-                            </td>
-                        </tr>
-                        <?php $i++; ?>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
+        <div class="tambah--container">
+            <h1 class="text-center pb-3">Tambah Testimoni</h1>
+            <form action="" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" name="email" placeholder="Email" required>
+                    <label for="floatingInput">Email Pengirim</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" placeholder="Pesan" id="floatingTextarea" name="pesan" required></textarea>
+                    <label for="floatingTextarea">Pesan</label>
+                </div>
+                <button type="submit" name="tambah" class="btn btn-success" style="float : right;">Tambah</button>
+                <a href="admin-kelola-testimoni.php"  class="btn btn-success" style="float : left;">Kembali</a>
+            </form>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
