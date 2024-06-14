@@ -5,7 +5,6 @@ if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
     header('Location: ../login.php');
     exit();
 }
-
 $id = $_GET['id'];
 $query = "SELECT * FROM testimoni WHERE idTestimoni='$id'";
 $result = mysqli_query($conn, $query);
@@ -175,10 +174,10 @@ if (isset($_POST['update'])) {
                     <span>Testimoni</span>
                 </a>
             </li>
-            <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
