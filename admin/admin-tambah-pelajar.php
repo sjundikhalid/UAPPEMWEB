@@ -1,5 +1,11 @@
 <?php
+session_start();
 include '../conn.php';
+if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
+    header('Location: ../login.php');
+    exit();
+}
+
 if (isset($_POST['tambah'])) { 
     $nama = htmlspecialchars($_POST['nama']);
     $email = htmlspecialchars($_POST['email']);
