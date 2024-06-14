@@ -1,6 +1,12 @@
 <?php
+session_start();
 include '../conn.php';
-$result = mysqli_query($conn, "SELECT * FROM users where roles = 'mentor'");
+if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
+    header('Location: ../login.php');
+    exit();
+}
+
+$result = mysqli_query($conn, "SELECT * FROM materi");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,11 +17,11 @@ $result = mysqli_query($conn, "SELECT * FROM users where roles = 'mentor'");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         *{
-        margin: 0;
-        padding: 0;
-        border: none;
-        outline: none;
-        box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            box-sizing: border-box;
         }
         body{
             display: flex;
@@ -118,34 +124,22 @@ $result = mysqli_query($conn, "SELECT * FROM users where roles = 'mentor'");
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="admin-kelola-mentor.php">
                     <i class="fas fa-user"></i>
                     <span>Mentor</span>
                 </a>
             </li>
             <li>
-                <a href="admin-kelola-pelajar.php">
-                    <i class="far fa-user"></i>
-                    <span>Pelajar</span>
-                </a>
-            </li>
-            <li>
-                <a href="admin-kelola-kursus.php">
+                <a href="admin-daftar-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
             </li>
-            <li>
-                <a href="admin-kelola-materi.php">
+            <li class="active">
+                <a href="admin-daftar-materi.php">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
-                </a>
-            </li>
-            <li>
-                <a href="admin-kelola-testimoni.php">
-                    <i class="far fa-star"></i>
-                    <span>Testimoni</span>
                 </a>
             </li>
             <li class="logout">
@@ -159,36 +153,28 @@ $result = mysqli_query($conn, "SELECT * FROM users where roles = 'mentor'");
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
-                <h2>Kelola Mentor</h2>
+                <h2>Daftar Materi</h2>
             </div>
         </div>
         <div class="table--container">
-            <a href="admin-tambah-mentor.php" class="btn btn-warning mb-2">Tambah Mentor</a>
             <div class="table-responsive">
                 <table id="example" class="table table-light table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Email Mentor</th>
-                            <th scope="col">Nama Mentor</th>
-                            <th scope="col">No. HP Mentor</th>
-                            <th scope="col"></th>
+                            <th scope="col">ID Materi</th>
+                            <th scope="col">Nama Materi</th>
+                            <th scope="col">Link Video</th>
+                            <th scope="col">ID Kursus</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 1; ?>
                         <?php while($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
-                            <td scope="row"><?= $i; ?></td>
-                            <td><?= $row["email"]; ?></td>
-                            <td><?= $row["nama"]; ?></td>
-                            <td><?= $row["nomorHP"]; ?></td>
-                            <td>
-                                <a href="admin-edit-mentor.php?id=<?= $row["email"]; ?>" class="btn btn-success">Edit</a>
-                                <a href="admin-hapus-mentor.php?id=<?= $row["email"]; ?>" onclick="return confirm('Apakah mau menghapus data?');" class="btn btn-danger">Delete</a>    
-                            </td>
+                            <td><?= $row["idMateri"]; ?></td>
+                            <td><?= $row["namaMateri"]; ?></td>
+                            <td><a href="<?= $row["linkVideo"]; ?>" target="_blank"><?= $row["linkVideo"]; ?></a></td>
+                            <td><?= $row["idCourse"]; ?></td>
                         </tr>
-                        <?php $i++; ?>
                         <?php endwhile; ?>
                     </tbody>
                 </table>
