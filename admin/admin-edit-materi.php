@@ -1,6 +1,10 @@
 <?php
+session_start();
 include '../conn.php';
-
+if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
+    header('Location: ../login.php');
+    exit();
+}
 $id = $_GET['id'];
 $query = "SELECT * FROM materi WHERE idMateri='$id'";
 $result = mysqli_query($conn, $query);
