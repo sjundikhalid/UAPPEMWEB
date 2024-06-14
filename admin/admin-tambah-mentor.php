@@ -169,27 +169,33 @@ if (isset($_POST['tambah'])) {
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-pelajar.php">
                     <i class="far fa-user"></i>
-                    <span>Peserta</span>
+                    <span>Pelajar</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-kursus.php">
                     <i class="fas fa-star"></i>
                     <span>Kursus</span>
                 </a>
             </li>
             <li>
-                <a href="">
+                <a href="admin-kelola-materi.php">
                     <i class="fas fa-book"></i>
                     <span>Materi</span>
                 </a>
             </li>
             <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+                <a href="admin-kelola-testimoni.php">
+                    <i class="far fa-star"></i>
+                    <span>Testimoni</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
