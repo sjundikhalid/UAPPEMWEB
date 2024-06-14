@@ -5,7 +5,28 @@ if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'admin') {
     header('Location: ../login.php');
     exit();
 }
-$result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
+$id = $_GET['id'];
+$query = "SELECT * FROM users WHERE email='$id'";
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+if (isset($_POST['update'])) { 
+    $nama = htmlspecialchars($_POST['nama']);
+    $email = htmlspecialchars($_POST['email']);
+    $nomorHP = htmlspecialchars($_POST['nomorHP']);
+
+    $query = "UPDATE users SET nama='$nama', nomorHP='$nomorHP' WHERE email='$email'";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>
+                    alert('Data Pelajar Berhasil Diperbarui');
+                    document.location.href = 'admin-kelola-pelajar.php'; 
+                    </script>";
+        } else {
+            echo "<script>
+                    alert('Data Pelajar Gagal Diperbarui');
+                    document.location.href = 'admin-edit-pelajar.php'; 
+                    </script>";
+        }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,11 +37,11 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         *{
-            margin: 0;
-            padding: 0;
-            border: none;
-            outline: none;
-            box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
         }
         body{
             display: flex;
@@ -106,8 +127,8 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
             color: black;
         }
         .table--container{
-            border-radius: 10px;
             background: #2f73b8;
+            border-radius: 10px;
             padding: 2rem;
         }
     </style>
@@ -123,13 +144,13 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
                     <span>Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="admin-kelola-mentor.php">
+            <li class="active">
+                <a href="admin-kelola-pelajar.php">
                     <i class="fas fa-user"></i>
                     <span>Mentor</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="admin-kelola-pelajar.php">
                     <i class="far fa-user"></i>
                     <span>Pelajar</span>
@@ -148,9 +169,21 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
                 </a>
             </li>
             <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+                <a href="admin-kelola-testimoni.php">
+                    <i class="far fa-star"></i>
+                    <span>Testimoni</span>
+                </a>
+            </li>
+            <li>
+                <a href="admin-kelola-testimoni.php">
+                    <i class="far fa-star"></i>
+                    <span>Testimoni</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
@@ -158,38 +191,27 @@ $result = mysqli_query($conn, "SELECT * FROM users WHERE roles = 'materi'");
     <div class="main--content">
         <div class="header--wrapper">
             <div class="header--title">
-                <h2>Kelola Materi</h2>
+                <h2>Kelola Pelajar</h2>
             </div>
         </div>
-        <div class="table--container">
-            <a href="admin-tambah-materi.php" class="btn btn-warning mb-2">Tambah Materi</a>
-            <div class="table-responsive">
-                <table id="example" class="table table-light table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Nama Materi</th>
-                            <th scope="col">Link YouTube</th>
-                            <th scope="col">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $i = 1; ?>
-                        <?php while($row = mysqli_fetch_assoc($result)): ?>
-                        <tr>
-                            <td scope="row"><?= $i; ?></td>
-                            <td><?= $row["namaMateri"]; ?></td>
-                            <td><?= $row["linkVideo"]; ?></td>
-                            <td>
-                                <a href="admin-edit-materi.php?id=<?= $row["email"]; ?>" class="btn btn-success">Edit</a>
-                                <a href="admin-hapus-materi.php?id=<?= $row["email"]; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');" class="btn btn-danger">Delete</a>    
-                            </td>
-                        </tr>
-                        <?php $i++; ?>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
+        <div class="tambah--container">
+            <h1 class="text-center pb-3">Edit Mentor</h1>
+            <form action="" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" name="email" value="<?= $row['email'] ?>" placeholder="Email Pelajar" readonly>
+                    <label for="floatingInput">Email Pelajar</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name ="nama" value="<?= $row['nama'] ?>" placeholder="Nama Pelajar" required>
+                    <label for="floatingInput">Nama Pelajar</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" name="nomorHP" value="<?= $row['nomorHP'] ?>" placeholder="NoHP Pelajar" required>
+                    <label for="floatingInput">Nomor HP Pelajar</label>
+                </div>
+                <button type="submit" name="update" class="btn btn-success" style="float : right;">Update</button>
+                <a href="admin-kelola-pelajar.php"  class="btn btn-success" style="float : left;">Kembali</a>
+            </form>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
