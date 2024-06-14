@@ -19,7 +19,7 @@ if (isset($_POST['update'])) {
     if (mysqli_query($conn, $query)) {
         echo "<script>
                     alert('Data Materi Berhasil Diperbarui');
-                    document.location.href = 'admin-daftar-materi.php'; 
+                    document.location.href = 'admin-tambah-materi.php'; 
                     </script>";
     } else {
         echo "<script>
