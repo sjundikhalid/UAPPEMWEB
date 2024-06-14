@@ -187,9 +187,15 @@ if (isset($_POST['tambah'])) {
                 </a>
             </li>
             <li>
-                <a href="admin-home.php">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
+                <a href="admin-kelola-testimoni.php">
+                    <i class="far fa-star"></i>
+                    <span>Testimoni</span>
+                </a>
+            </li>
+            <li class="logout">
+                <a href="">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
                 </a>
             </li>
         </ul>
