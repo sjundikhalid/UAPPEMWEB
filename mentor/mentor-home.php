@@ -1,6 +1,46 @@
 <?php
+session_start();
 include '../conn.php';
+if (!isset($_SESSION['email']) || $_SESSION['roles'] !== 'mentor') {
+    header('Location: ../login.php');
+    exit();
+}
 
+$sql_mentor = "SELECT COUNT(*) as total_mentor FROM users WHERE roles = 'mentor'";
+$result_mentor = mysqli_query($conn, $sql_mentor);
+
+$sql_pelajar = "SELECT COUNT(*) as total_pelajar FROM users WHERE roles = 'pelajar'";
+$result_pelajar = mysqli_query($conn, $sql_pelajar);
+
+$sql_kursus = "SELECT COUNT(*) as total_kursus FROM course";
+$result_kursus = mysqli_query($conn, $sql_kursus);
+
+$sql_materi = "SELECT COUNT(*) as total_materi FROM materi";
+$result_materi = mysqli_query($conn, $sql_materi);
+
+$total_mentor = 0;
+$total_pelajar = 0;
+$total_kursus = 0;
+$total_materi = 0;
+
+if (mysqli_num_rows($result_mentor) > 0) {
+    $row = mysqli_fetch_assoc($result_mentor);
+    $total_mentor = $row["total_mentor"];
+}
+
+if (mysqli_num_rows($result_pelajar) > 0) {
+    $row = mysqli_fetch_assoc($result_pelajar);
+    $total_pelajar = $row["total_pelajar"];
+}
+if (mysqli_num_rows($result_kursus) > 0) {
+    $row = mysqli_fetch_assoc($result_kursus);
+    $total_kursus = $row["total_kursus"];
+}
+
+if (mysqli_num_rows($result_materi) > 0) {
+    $row = mysqli_fetch_assoc($result_materi);
+    $total_materi = $row["total_materi"];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +51,7 @@ include '../conn.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #ffff;
         }
         #banner{
@@ -65,12 +106,13 @@ include '../conn.php';
         }
         .card-title{
             color: white;
+            font-size:28px;
         }
         .card-subtitle{
             color: white;
         }
         .card-text{
-            color: white;
+            color: black;
         }
         #course{
             background: #ffff;
@@ -153,9 +195,10 @@ include '../conn.php';
                 <a class="nav-link" style="color: white; font-weight: 500;" href="#about-us">About Us</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" style="color: white; font-weight: 500;" href="#">Kelola Kursus</a>
+                <a class="nav-link" style="color: white; font-weight: 500;" href="kelola-kursus.php">Kelola Kursus</a>
                 </li>
             </ul>
+            <a class="nav-link" style="color: white; font-weight: 500;" href="../logout.php" >Log Out</a>
             </div>
         </div>
     </nav>
@@ -176,30 +219,30 @@ include '../conn.php';
         <div class="container px-4 text-center">
             <h1 class="tittle text-center">FEATURED</h1>
             <div class="row gx-5">
-                <div class="card p-3" style="width: 15rem; height:10rem; background-image: linear-gradient(to right, #2f73b8, #336b89);">
+                <div class="card p-3" style="width: 15rem; height:10rem; background: #2f73b8; box-shadow: 5px 10px 18px #888888;">
                     <div class="card-body">
-                        <h5 class="card-title">500+</h5>
+                        <h5 class="card-title"><?php echo $total_pelajar; ?></h5>
                         <h6 class="card-subtitle mb-2">Pelajar Terdaftar</h6>
                         <p class="card-text">yayay</p>
                     </div>
                 </div>
-                <div class="card p-3" style="width: 15rem; height:10rem; background-image: linear-gradient(to right, #2f73b8, #336b89);">
+                <div class="card p-3" style="width: 15rem; height:10rem; background: #2f73b8; box-shadow: 5px 10px 18px #888888;">
                     <div class="card-body">
-                        <h5 class="card-title">50+</h5>
+                        <h5 class="card-title"><?php echo $total_mentor; ?></h5>
                         <h6 class="card-subtitle mb-2">Mentor Terdaftar</h6>
                         <p class="card-text">yayay</p>
                     </div>
                 </div>
-                <div class="card p-3" style="width: 15rem; height:10rem; background-image: linear-gradient(to right, #2f73b8, #336b89);">
+                <div class="card p-3" style="width: 15rem; height:10rem; background: #2f73b8; box-shadow: 5px 10px 18px #888888;">
                     <div class="card-body">
-                        <h5 class="card-title">1000+</h5>
+                        <h5 class="card-title"><?php echo $total_kursus; ?></h5>
                         <h6 class="card-subtitle mb-2">Kursus Tersedia</h6>
                         <p class="card-text">yayay</p>
                     </div>
                 </div>
-                <div class="card p-3" style="width: 15rem; height:10rem; background-image: linear-gradient(to right, #2f73b8, #336b89);">
+                <div class="card p-3" style="width: 15rem; height:10rem; background: #2f73b8; box-shadow: 5px 10px 18px #888888;">
                     <div class="card-body">
-                        <h5 class="card-title">12312+</h5>
+                        <h5 class="card-title"><?php echo $total_materi; ?></h5>
                         <h6 class="card-subtitle mb-2">Materi Tersedia</h6>
                         <p class="card-text">yayay</p>
                     </div>
@@ -219,7 +262,7 @@ include '../conn.php';
                         <li>HTML Dasar</li>
                         <li>CSS Dasar</li>
                     </ul>
-                    <a class="tombol-course btn btn-primary" href="../course.php" role="button">Jelajahi</a>
+                    <a class="tombol-course btn btn-primary" href="../daftar-course.php" role="button">Jelajahi</a>
                 </div>
                 <div class="col-md-6">
                     <img src="../img/gambarmeja.png" alt="">
@@ -249,7 +292,7 @@ include '../conn.php';
             <div class="row justify-content-center text-center">
                 <div class="col-md-4 footer-box1">
                     <img src="../img/logo-buku2.png" alt="" class="footer-box1-img">
-                    <p>Jika kamu tertarik untuk menjadi salah satu mentor, hubungi kami!</p>
+                    <p style="font-weight: 500;">AMBATUCOURSE!</p>
                 </div>
                 <div class="col-md-4 footer-box2">
                     <p><b>CONTACT US</b></p>
