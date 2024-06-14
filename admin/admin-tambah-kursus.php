@@ -167,10 +167,10 @@ if (isset($_POST['tambah'])) {
                     <span>Materi</span>
                 </a>
             </li>
-            <li class="logout">
-                <a href="">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Log Out</span>
+            <li>
+                <a href="admin-home.php">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
                 </a>
             </li>
         </ul>
